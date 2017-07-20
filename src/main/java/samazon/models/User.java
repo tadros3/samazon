@@ -37,6 +37,10 @@ public class User {
     @JoinTable(joinColumns = @JoinColumn(name = "user_id"),inverseJoinColumns = @JoinColumn(name = "role_id"))
     private Collection <Role> roles;
     
+    @OneToMany(fetch = FetchType.EAGER)
+    @JoinTable(joinColumns = @JoinColumn(name = "user_id"),inverseJoinColumns = @JoinColumn(name = "order_id"))
+    private Collection<Order> orders;
+    
     public User() {
     	
     }

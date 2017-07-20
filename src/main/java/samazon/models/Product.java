@@ -18,7 +18,7 @@ public class Product{
 	 
 
 	@Column(name = "inStock")
-	 private int inStock;
+	 private long inStock;
 	 
 	 @Column(name = "s_image")
 	 private String s_image;
@@ -51,11 +51,11 @@ public class Product{
 			this.p_name = p_name;
 	}
 
-	public int getInStock() {
+	public long getInStock() {
 		return inStock;
 	}
 
-	public void setInStock(int inStock) {
+	public void setInStock(long inStock) {
 		this.inStock = inStock;
 	}
 
