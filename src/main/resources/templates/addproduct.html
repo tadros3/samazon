@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="www.thymeleaf.org " xmlns:sec="www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <title>Add Product</title>
+    <th:block th:replace="base :: head"></th:block>
+</head>
+<body>
+<th:block th:replace="base :: nav"></th:block>
+ <div class="container">
+ <br /><br /><br />
+<form action = "#" th:action="@{/addproduct}"  th:object="${product}"  method="post">
+        <div><label> Product Name : <input type="text" name="p_name" id="p_name" class ="form-control" th:field="*{p_name}"/> </label></div>
+        <div><label> Price <input type="number" name="price" id="price"class ="form-control" th:field="*{price}" /> </label></div>
+        <div><label> InStock <input type="text" name="stock" id="stock" class ="form-control" th:field="*{inStock}"/> </label></div>
+        <div><label> small_image <input type="url" name="small_image" id="small_image"class ="form-control" th:field="*{s_image}"/> </label></div>
+        <div><label> large_image <input type="url" name="large_image" id="large_image"class ="form-control" th:field="*{l_image}"/> </label></div>
+         <div><label> small_desc <input type="text" name="small_desc" id="small_desc" class ="form-control" th:field="*{s_desc}"/> </label></div>
+        <div><label> large_desc <textarea name="large_desc" id = "large_desc" class ="form-control" th:field="*{l_desc}"> </textarea></label></div>
+        <button type="submit" class="btn btn-default">Submit</button>
+ </form>
+ </div>
+</body>
+</html>

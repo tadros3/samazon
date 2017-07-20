@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import samazon.models.Product;
 import samazon.models.User;
 import samazon.services.UserService;
 import samazon.validators.UserValidator;
@@ -23,11 +24,18 @@ public class HomeController {
 	
     @RequestMapping("/")
     public String index(){
-        return "index";
+        return "homepage";
     }
     @RequestMapping("/login")
     public String login(){
         return "login";
+    }
+    
+    
+    @RequestMapping(value="/addproduct", method = RequestMethod.GET)
+    public String showaddproductPage(Model model){
+        model.addAttribute("product", new Product());
+        return "addproduct";
     }
     
     @RequestMapping(value="/register", method = RequestMethod.GET)
@@ -46,6 +54,19 @@ public class HomeController {
             model.addAttribute("message", "User Account Successfully Created");
         }
         return "index";
+    }
+    
+    @RequestMapping(value="/addproduct", method = RequestMethod.POST)
+    public String processaddPage(@Valid @ModelAttribute("product") Product product, BindingResult result, Model model){
+        model.addAttribute("product", product);
+        //userValidator.validate(user, result);
+        if (result.hasErrors()) {
+            return "registration";
+        } else {
+            //userService.saveUser(product);
+            model.addAttribute("message", "User Account Successfully Created");
+        }
+        return "addproduct";
     }
     public UserValidator getUserValidator() {
         return userValidator;
