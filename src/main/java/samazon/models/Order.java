@@ -13,8 +13,10 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.Table;
 
 @Entity
+@Table (name = "orders", schema = "Samazon")
 public class Order {
 	@Id
     @GeneratedValue(strategy = GenerationType.AUTO)

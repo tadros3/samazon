@@ -1,5 +1,7 @@
 package samazon.models;
 
+import org.hibernate.annotations.LazyCollection;
+import org.hibernate.annotations.LazyCollectionOption;
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotEmpty;
 import org.springframework.data.annotation.*;
@@ -33,9 +35,8 @@ public class User {
     @Column(name = "username")
     private String username;
     
-    @ManyToMany(fetch = FetchType.EAGER)
-    @JoinTable(joinColumns = @JoinColumn(name = "user_id"),inverseJoinColumns = @JoinColumn(name = "role_id"))
-    private Collection <Role> roles;
+    @Column(name = "role")
+    private String role;
     
     @OneToMany(fetch = FetchType.EAGER)
     @JoinTable(joinColumns = @JoinColumn(name = "user_id"),inverseJoinColumns = @JoinColumn(name = "order_id"))
@@ -45,13 +46,14 @@ public class User {
     	
     }
     
-    public User(String email, String password, String firstName, String lastName, boolean enabled, String username) {
+    public User(String email, String password, String firstName, String lastName, boolean enabled, String username, String role) {
         this.email = email;
         this.password = password;
         this.firstName = firstName;
         this.lastName = lastName;
         this.enabled = enabled;
         this.username = username;
+        this.role = role;
     }
 
 	public long getId() {
@@ -110,12 +112,12 @@ public class User {
 		this.username = username;
 	}
 
-	public Collection<Role> getRoles() {
-		return roles;
+	public String getRole() {
+		return role;
 	}
 
-	public void setRoles(Collection<Role> roles) {
-		this.roles = roles;
+	public void setRole(String role) {
+		this.role = role;
 	}
     
     

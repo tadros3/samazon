@@ -6,10 +6,9 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
+import javax.persistence.PrimaryKeyJoinColumn;
 
 @Entity
 public class LineItem {
@@ -18,7 +17,7 @@ public class LineItem {
     private long id;
 	
 	@OneToOne(fetch = FetchType.EAGER)
-	@JoinTable(joinColumns = @JoinColumn(name = "item_id"),inverseJoinColumns = @JoinColumn(name = "product_id"))
+	@PrimaryKeyJoinColumn
 	private Product product;
 	
 	@Column(name = "quantity")

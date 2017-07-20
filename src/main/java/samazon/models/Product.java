@@ -1,10 +1,13 @@
 package samazon.models;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToOne;
 
 @Entity
 public class Product{
@@ -34,6 +37,9 @@ public class Product{
 	 
 	 @Column(name = "l_desc")
 	 private String l_desc;
+	 
+	 @OneToOne(fetch = FetchType.LAZY, mappedBy = "product", cascade = CascadeType.ALL)
+	 private LineItem lineitem;
 	 
 	 public long getId() {
 		return id;
@@ -99,5 +105,12 @@ public class Product{
 		this.l_desc = l_desc;
 	}
 
+	public LineItem getLineItem() {
+		return lineitem;
+	}
+	
+	public void setLineItem(LineItem lineitem) {
+		this.lineitem = lineitem;
+	}
 	
 }
