@@ -17,26 +17,26 @@ public class Product{
 	 private long id;
 	 
 	 @Column(name = "p_name")
-	 private String p_name;
+	 private String pName;
 	 
 
 	@Column(name = "inStock")
 	 private long inStock;
 	 
 	 @Column(name = "s_image")
-	 private String s_image;
+	 private String sImage;
 	 
 	 @Column(name = "l_image")
-	 private String l_image;
+	 private String lImage;
 	 
 	 @Column(name = "price")
 	 private double price;
 	 
 	 @Column(name = "s_desc")
-	 private String s_desc;
+	 private String sDesc;
 	 
 	 @Column(name = "l_desc")
-	 private String l_desc;
+	 private String lDesc;
 	 
 	 @OneToOne(fetch = FetchType.LAZY, mappedBy = "product", cascade = CascadeType.ALL)
 	 private LineItem lineitem;
@@ -49,12 +49,12 @@ public class Product{
 		this.id = id;
 	}
 
-	public String getP_name() {
-			return p_name;
+	public String getPName() {
+			return pName;
 		}
 
-	public void setP_name(String p_name) {
-			this.p_name = p_name;
+	public void setP_name(String pName) {
+			this.pName = pName;
 	}
 
 	public long getInStock() {
@@ -65,20 +65,20 @@ public class Product{
 		this.inStock = inStock;
 	}
 
-	public String getS_image() {
-		return s_image;
+	public String getSImage() {
+		return sImage;
 	}
 
-	public void setS_image(String s_image) {
-		this.s_image = s_image;
+	public void setSImage(String sImage) {
+		this.sImage = sImage;
 	}
 
-	public String getL_image() {
-		return l_image;
+	public String getLImage() {
+		return lImage;
 	}
 
-	public void setL_image(String l_image) {
-		this.l_image = l_image;
+	public void setLImage(String lImage) {
+		this.lImage = lImage;
 	}
 
 	public double getPrice() {
@@ -89,20 +89,20 @@ public class Product{
 		this.price = price;
 	}
 
-	public String getS_desc() {
-		return s_desc;
+	public String getSDesc() {
+		return sDesc;
 	}
 
-	public void setS_desc(String s_desc) {
-		this.s_desc = s_desc;
+	public void setSDesc(String sDesc) {
+		this.sDesc = sDesc;
 	}
 
-	public String getL_desc() {
-		return l_desc;
+	public String getLDesc() {
+		return lDesc;
 	}
 
-	public void setL_desc(String l_desc) {
-		this.l_desc = l_desc;
+	public void setL_desc(String lDesc) {
+		this.lDesc = lDesc;
 	}
 
 	public LineItem getLineItem() {

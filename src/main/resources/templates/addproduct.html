@@ -13,13 +13,13 @@
  <div class="container">
  <br /><br /><br />
 <form action = "#" th:action="@{/addproduct}"  th:object="${product}"  method="post">
-        <div><label> Product Name : <input type="text" name="p_name" id="p_name" class ="form-control" th:field="*{p_name}"/> </label></div>
-        <div><label> Price <input type="number" name="price" id="price"class ="form-control" th:field="*{price}" /> </label></div>
+        <div><label> Product Name : <input type="text" name="pName" id="pName" class ="form-control" th:field="*{pName}"/> </label></div>
+        <div><label> Price <input type="number" step=".01" name="price" id="price" class ="form-control" th:field="*{price}" /> </label></div>
         <div><label> InStock <input type="text" name="stock" id="stock" class ="form-control" th:field="*{inStock}"/> </label></div>
-        <div><label> small_image <input type="url" name="small_image" id="small_image"class ="form-control" th:field="*{s_image}"/> </label></div>
-        <div><label> large_image <input type="url" name="large_image" id="large_image"class ="form-control" th:field="*{l_image}"/> </label></div>
-         <div><label> small_desc <input type="text" name="small_desc" id="small_desc" class ="form-control" th:field="*{s_desc}"/> </label></div>
-        <div><label> large_desc <textarea name="large_desc" id = "large_desc" class ="form-control" th:field="*{l_desc}"> </textarea></label></div>
+        <div><label> sImage <input type="url" name="sImage" id="sImage"class ="form-control" th:field="*{sImage}"/> </label></div>
+        <div><label> lImage <input type="url" name="lImage" id="lImage"class ="form-control" th:field="*{lImage}"/> </label></div>
+         <div><label> sDesc <input type="text" name="sDesc" id="sDesc" class ="form-control" th:field="*{sDesc}"/> </label></div>
+        <div><label> lDesc <textarea name="lDesc" id = "lDesc" class ="form-control" th:field="*{lDesc}"> </textarea></label></div>
         <button type="submit" class="btn btn-default">Submit</button>
  </form>
  </div>
