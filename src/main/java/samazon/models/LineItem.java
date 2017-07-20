@@ -2,9 +2,14 @@ package samazon.models;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 
 @Entity
 public class LineItem {
@@ -12,11 +17,15 @@ public class LineItem {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
 	
-	@Column(name = "product")
+	@OneToOne(fetch = FetchType.EAGER)
+	@JoinTable(joinColumns = @JoinColumn(name = "item_id"),inverseJoinColumns = @JoinColumn(name = "product_id"))
 	private Product product;
 	
 	@Column(name = "quantity")
 	private long quantity;
+	
+	@ManyToOne(fetch = FetchType.LAZY)
+	private Order order;
 	
 	public LineItem() {
 		
@@ -44,5 +53,13 @@ public class LineItem {
 
 	public void setQuantity(long quantity) {
 		this.quantity = quantity;
+	}
+
+	public Order getOrder() {
+		return order;
+	}
+
+	public void setOrder(Order order) {
+		this.order = order;
 	}
 }
