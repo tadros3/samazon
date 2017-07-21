@@ -53,7 +53,7 @@ public class Product{
 			return pName;
 		}
 
-	public void setP_name(String pName) {
+	public void setPName(String pName) {
 			this.pName = pName;
 	}
 
@@ -101,7 +101,7 @@ public class Product{
 		return lDesc;
 	}
 
-	public void setL_desc(String lDesc) {
+	public void setLDesc(String lDesc) {
 		this.lDesc = lDesc;
 	}
 

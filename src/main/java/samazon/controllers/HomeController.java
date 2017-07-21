@@ -12,7 +12,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import samazon.models.Product;
 import samazon.models.User;
+import samazon.services.ProductService;
 import samazon.services.UserService;
+import samazon.validators.ProductValidator;
 import samazon.validators.UserValidator;
 @Controller
 public class HomeController {
@@ -20,7 +22,11 @@ public class HomeController {
 	@Autowired
 	private UserValidator userValidator;
 	@Autowired
+	private ProductValidator prodValidator;
+	@Autowired
 	private UserService userService;
+	@Autowired
+	private ProductService prodService;
 	
     @RequestMapping("/")
     public String index(){
@@ -59,14 +65,17 @@ public class HomeController {
     @RequestMapping(value="/addproduct", method = RequestMethod.POST)
     public String processaddPage(@Valid @ModelAttribute("product") Product product, BindingResult result, Model model){
         model.addAttribute("product", product);
-        //userValidator.validate(user, result);
+        System.out.println(product.getLDesc());
+        System.out.println(product.getPName());
+        System.out.println(product.getSDesc());
+        prodValidator.validate(product, result);
         if (result.hasErrors()) {
-            return "registration";
+            return "addproduct";
         } else {
-            //userService.saveUser(product);
-            model.addAttribute("message", "User Account Successfully Created");
+            prodService.saveProduct(product);
+            model.addAttribute("message", "Product Successfully Created");
         }
-        return "addproduct";
+        return "index";
     }
     public UserValidator getUserValidator() {
         return userValidator;

@@ -13,14 +13,35 @@
  <div class="container">
  <br /><br /><br />
 <form action = "#" th:action="@{/addproduct}"  th:object="${product}"  method="post">
-        <div><label> Product Name : <input type="text" name="pName" id="pName" class ="form-control" th:field="*{pName}"/> </label></div>
-        <div><label> Price <input type="number" step=".01" name="price" id="price" class ="form-control" th:field="*{price}" /> </label></div>
-        <div><label> InStock <input type="text" name="stock" id="stock" class ="form-control" th:field="*{inStock}"/> </label></div>
-        <div><label> sImage <input type="url" name="sImage" id="sImage"class ="form-control" th:field="*{sImage}"/> </label></div>
-        <div><label> lImage <input type="url" name="lImage" id="lImage"class ="form-control" th:field="*{lImage}"/> </label></div>
-         <div><label> sDesc <input type="text" name="sDesc" id="sDesc" class ="form-control" th:field="*{sDesc}"/> </label></div>
-        <div><label> lDesc <textarea name="lDesc" id = "lDesc" class ="form-control" th:field="*{lDesc}"> </textarea></label></div>
-        <button type="submit" class="btn btn-default">Submit</button>
+	<div class="form-group">
+        <label for="pName">Product Name <mark><strong><span th:if="${#fields.hasErrors('pName')}" th:errors="*{pName}"></span></strong></mark></label>
+        <input type="text" class="form-control" id="pName" placeholder="Product Name" th:field="*{pName}" />
+    </div>
+    <div class="form-group">
+        <label for="price">Price <mark><strong><span th:if="${#fields.hasErrors('price')}" th:errors="*{price}"></span></strong></mark></label>
+        <input type="number" step=".01" class="form-control" id="price" placeholder="Price" th:field="*{price}" />
+    </div>
+    <div class="form-group">
+        <label for="inStock">Stock<mark><strong><span th:if="${#fields.hasErrors('inStock')}" th:errors="*{inStock}"></span></strong></mark></label>
+        <input type="number" class="form-control" id="inStock" placeholder="Stock" th:field="*{inStock}" />
+    </div>
+    <div class="form-group">
+        <label for="sImage">Small Image Url <mark><strong><span th:if="${#fields.hasErrors('sImage')}" th:errors="*{sImage}"></span></strong></mark></label>
+        <input type="url" class="form-control" id="sImage" placeholder="Small Image Url" th:field="*{sImage}" />
+    </div>
+    <div class="form-group">
+        <label for="lImage">Large Image Url <mark><strong><span th:if="${#fields.hasErrors('lImage')}" th:errors="*{lImage}"></span></strong></mark></label>
+        <input type="url" class="form-control" id="lImage" placeholder="Large Image Url" th:field="*{lImage}" />
+    </div>
+    <div class="form-group">
+        <label for="sDesc">Brief Description<mark><strong><span th:if="${#fields.hasErrors('sDesc')}" th:errors="*{sDesc}"></span></strong></mark></label>
+        <input type="text" class="form-control" id="sDesc" placeholder="Brief Description" th:field="*{sDesc}" />
+    </div>
+    <div class="form-group">
+        <label for="lDesc">Product Specs <mark><strong><span th:if="${#fields.hasErrors('lDesc')}" th:errors="*{lDesc}"></span></strong></mark></label>
+        <textarea class="form-control" id="lDesc" th:field="*{lDesc}"></textarea>
+    </div>
+	<button type="submit" class="btn btn-default">Submit</button>
  </form>
  </div>
 </body>

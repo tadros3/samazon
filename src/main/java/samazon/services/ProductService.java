@@ -19,7 +19,7 @@ public class ProductService {
     public Long countByPName(String pName) {
         return prodRepository.countByPName(pName);
     }
-    public void saveUser(Product prod) {
+    public void saveProduct(Product prod) {
         prodRepository.save(prod);
     }
 }
