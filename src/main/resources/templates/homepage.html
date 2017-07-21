@@ -72,18 +72,15 @@
         
         <div th:if="${not #lists.isEmpty(prods)}">
     	<h2>Products List</h2>
-    	 <ul class="nav navbar-nav" th:each="count : ${prods}">
-                <li >
+    	 <th:block  th:each="count : ${prods}">
+    	 	<div class="col-sm-4 col-md-4 col-lg-4">
                 <p th:text="${count.pName}">
-           		 Name
+           		  </p>
             	<a href="/login">
-				<img src="${count.sImage}" alt="macbook"  border="0">
+				<img th:src="@{${count.sImage}}" th:alt="${count.pName}"  border="0"/>
 				</a>
-        </p>
-				</li>
-                <li>
-                <p>
-                </ul>
+       
+				</div>
 		</div>
 
     </div>
