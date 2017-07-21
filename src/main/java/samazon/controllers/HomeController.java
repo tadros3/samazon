@@ -1,5 +1,7 @@
 package samazon.controllers;
 
+import java.util.ArrayList;
+
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,13 +31,20 @@ public class HomeController {
 	private ProductService prodService;
 	
     @RequestMapping("/")
-    public String index(){
+    public String index(Model model){
+    	model.addAttribute("prods", prodService.products());
         return "homepage";
     }
     @RequestMapping("/login")
     public String login(){
         return "login";
     }
+    @RequestMapping("/productprofile")
+    public String productprofile(){
+        return "productprofile";
+    }
+    
+    
     
     
     @RequestMapping(value="/addproduct", method = RequestMethod.GET)
@@ -75,7 +84,7 @@ public class HomeController {
             prodService.saveProduct(product);
             model.addAttribute("message", "Product Successfully Created");
         }
-        return "index";
+        return "addproduct";
     }
     public UserValidator getUserValidator() {
         return userValidator;

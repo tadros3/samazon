@@ -1,7 +1,10 @@
 package samazon.services;
 
+import java.util.ArrayList;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.ModelAttribute;
 
 import samazon.models.Product;
 import samazon.repositories.ProductRepository;
@@ -21,5 +24,15 @@ public class ProductService {
     }
     public void saveProduct(Product prod) {
         prodRepository.save(prod);
+    }
+    
+    /*public ArrayList<Product> listAll() {
+    	ArrayList<Product> products = new ArrayList<>();
+        ProductRepository.findAll().forEach(products::add);
+        return products;
+    }*/
+    
+    public ArrayList<Product> products() {
+        return prodRepository.findAll();
     }
 }
