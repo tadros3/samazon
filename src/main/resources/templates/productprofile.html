@@ -40,7 +40,17 @@
 									<p class="lead" th:text="${pprof.price}">$21.000</p>
 								</div>
 								<div class="span6">
-									<a class="btn btn-success btn-block" href="http://www.bootstraptor.com">Add to cart</a>
+									<form action="#" th:action="@{/shoppingcart}" th:object="${pprof}" method="post">
+									<input type="hidden" name="id" th:value="${pprof.id}"/>
+									<input type="hidden" name="pName" th:value="${pprof.pName}"/>
+									<input type="hidden" name="inStock" th:value="${pprof.inStock}"/>
+									<input type="hidden" name="price" th:value="${pprof.price}"/>
+									<input type="hidden" name="lDesc" th:value="${pprof.lDesc}"/>
+									<input type="hidden" name="lImage" th:value="${pprof.lImage}"/>
+									<input type="hidden" name="sDesc" th:value="${pprof.sDesc}"/>
+									<input type="hidden" name="sImage" th:value="${pprof.sImage}"/>
+									<button class="btn btn-success btn-block" type="submit">Add to cart</button>
+								</form>
 								</div>
 							</div>
 						</div> 

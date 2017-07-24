@@ -35,4 +35,8 @@ public class UserService {
         user.setEnabled(true);
         userRepository.save(user);
     }
+    public SSUserDetailsService createservice()  
+    {
+    	return new SSUserDetailsService(userRepository);
+    }
 }

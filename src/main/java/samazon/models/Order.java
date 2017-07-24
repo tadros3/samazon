@@ -15,6 +15,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 @Table (name = "orders", schema = "Samazon")
 public class Order {
@@ -23,6 +25,7 @@ public class Order {
     private long id;
 	
 	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "orderId")
 	private User user;
 	
 	@Column(name = "timestamp")
@@ -33,6 +36,9 @@ public class Order {
 	
 	@Column (name = "payment_method")
 	private String paymentMethod;
+	
+	@Column (name = "open_order")
+	private String openOrder;
 	
 	@OneToMany(fetch = FetchType.EAGER)
 	@JoinTable(joinColumns = @JoinColumn(name = "order_id"),inverseJoinColumns = @JoinColumn(name = "item_id"))
@@ -88,5 +94,13 @@ public class Order {
 
 	public void setLineItems(Collection<LineItem> lineItems) {
 		this.lineItems = lineItems;
+	}
+
+	public String getOpenOrder() {
+		return openOrder;
+	}
+
+	public void setOpenOrder(String openOrder) {
+		this.openOrder = openOrder;
 	}
 }

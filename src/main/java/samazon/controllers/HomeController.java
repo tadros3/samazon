@@ -1,6 +1,8 @@
 package samazon.controllers;
 
+import java.security.Principal;
 import java.util.ArrayList;
+import java.util.Collection;
 
 import javax.validation.Valid;
 
@@ -13,9 +15,14 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import samazon.models.LineItem;
+import samazon.models.Order;
 import samazon.models.Product;
 import samazon.models.User;
+import samazon.services.LineItemService;
+import samazon.services.OrderService;
 import samazon.services.ProductService;
+import samazon.services.SSUserDetailsService;
 import samazon.services.UserService;
 import samazon.validators.ProductValidator;
 import samazon.validators.UserValidator;
@@ -30,6 +37,12 @@ public class HomeController {
 	private UserService userService;
 	@Autowired
 	private ProductService prodService;
+	@Autowired
+	private OrderService ordService;
+	@Autowired
+	private LineItemService lService;
+	//@Autowired
+	//private SSUserDetailsService sservice;
 	
     @RequestMapping("/")
     public String index(Model model){
@@ -45,6 +58,34 @@ public class HomeController {
         return "productprofile";
     }
     */
+    
+    @RequestMapping("/shoppingcart")
+    public String shoppingcart(Principal principal,Model model,@Valid @ModelAttribute("pprof") Product product, BindingResult result){
+    	System.out.println(principal.getName());
+    	User user = userService.findByUsername(principal.getName());
+    	System.out.println(product.getId());
+    	//product=new Product();
+    	//product.setId(1);
+    	Collection<Order> orders= user.getOrders();
+    	Order order = ordService.findByOpenOrder("true");
+    	if(order==null)
+    	{
+    		order = new Order();
+    		order.setOpenOrder("true");
+    		order.setUser(user);
+    		ordService.saveOrder(order);
+    	}
+    	model.addAttribute("openorder",order);
+    	LineItem litem = new LineItem();
+    	litem.setOrder(order);
+    	litem.setProduct(product);
+        lService.saveLineItem(litem);
+    	System.out.println(order.getLineItems());
+        model.addAttribute("lineitems",order.getLineItems());
+    	
+        return "shoppingcart";
+    }
+    
     @RequestMapping(value="/productprofile/{pName}", method = RequestMethod.POST)
     public String showproductprofile(@Valid @ModelAttribute("prod") Product product, BindingResult result,Model model){
     	System.out.println(product.getPName());

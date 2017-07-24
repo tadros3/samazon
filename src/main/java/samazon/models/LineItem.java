@@ -1,5 +1,6 @@
 package samazon.models;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -16,7 +17,7 @@ public class LineItem {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
 	
-	@OneToOne(fetch = FetchType.EAGER)
+	@ManyToOne(fetch = FetchType.LAZY)
 	@PrimaryKeyJoinColumn
 	private Product product;
 	

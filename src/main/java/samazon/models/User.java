@@ -38,8 +38,8 @@ public class User {
     @Column(name = "role")
     private String role;
     
-    @OneToMany(fetch = FetchType.EAGER)
-    @JoinTable(joinColumns = @JoinColumn(name = "user_id"),inverseJoinColumns = @JoinColumn(name = "order_id"))
+    @OneToMany(fetch = FetchType.EAGER,mappedBy = "user",cascade = {CascadeType.ALL})
+    //@JoinTable(joinColumns = @JoinColumn(name = "user_id"),inverseJoinColumns = @JoinColumn(name = "order_id"))
     private Collection<Order> orders;
     
     public User() {
@@ -118,6 +118,14 @@ public class User {
 
 	public void setRole(String role) {
 		this.role = role;
+	}
+
+	public Collection<Order> getOrders() {
+		return orders;
+	}
+
+	public void setOrders(Collection<Order> orders) {
+		this.orders = orders;
 	}
     
     

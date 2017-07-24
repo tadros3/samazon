@@ -53,6 +53,7 @@
 						<div class="col-sm-4 col-md-4 col-lg-4">
 							<p th:text="${prod.pName}"></p>
 							<form action="#" th:action="@{'productprofile/'+${prod.pName}}" th:object="${prod}" method="post">
+							   <input type="hidden" name="id" th:value="${prod.id}"/>
 								<input type="hidden" name="pName" th:value="${prod.pName}"/>
 								<input type="hidden" name="inStock" th:value="${prod.inStock}"/>
 								<input type="hidden" name="price" th:value="${prod.price}"/>
@@ -70,6 +71,7 @@
 							</div>
 						</div>
 					</div>
+				</th:block>
 			</div>
 
 		</div>
