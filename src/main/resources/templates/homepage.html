@@ -76,10 +76,10 @@
     	 	<div class="col-sm-4 col-md-4 col-lg-4">
                 <p th:text="${count.pName}">
            		  </p>
-            	<a href="/login">
-				<img th:src="@{${count.sImage}}" th:alt="${count.pName}"  border="0"/>
-				</a>
-       
+            	<form th:action="@{'/productprofile/'+${count.pName}}" th:object="${count}" method="post"> 
+				
+				<button type="submit"> <img th:src="@{${count.sImage}}" th:alt="${count.pName}"  border="0"/></button>
+       			</form>
 				</div>
 		</div>
 

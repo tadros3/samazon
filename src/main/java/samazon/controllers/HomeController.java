@@ -9,6 +9,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
@@ -39,11 +40,17 @@ public class HomeController {
     public String login(){
         return "login";
     }
-    @RequestMapping("/productprofile")
+   /* @RequestMapping("/productprofile")
     public String productprofile(){
         return "productprofile";
     }
-    
+    */
+    @RequestMapping(value="/productprofile/{pName}", method = RequestMethod.POST)
+    public String showproductprofile(@Valid @ModelAttribute("count") Product product, BindingResult result,Model model){
+    	System.out.println(product.getPName());	
+    	model.addAttribute("pprof", product);
+        return "productprofile";
+    }
     
     
     
