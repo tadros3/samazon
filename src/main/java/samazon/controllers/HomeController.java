@@ -46,8 +46,10 @@ public class HomeController {
     }
     */
     @RequestMapping(value="/productprofile/{pName}", method = RequestMethod.POST)
-    public String showproductprofile(@Valid @ModelAttribute("count") Product product, BindingResult result,Model model){
-    	System.out.println(product.getPName());	
+    public String showproductprofile(@Valid @ModelAttribute("prod") Product product, BindingResult result,Model model){
+    	System.out.println(product.getPName());
+    	System.out.println(product.getLDesc());
+        System.out.println(product.getSDesc());
     	model.addAttribute("pprof", product);
         return "productprofile";
     }

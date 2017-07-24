@@ -48,20 +48,25 @@
 
 			<div th:if="${not #lists.isEmpty(prods)}">
 				<h2>Products List</h2>
-				<th:block th:each="count : ${prods}">
+				<th:block th:each="prod : ${prods}">
 					<div class="col-sm-4 col-md-4 col-lg-4 product-home">
 						<div class="col-sm-4 col-md-4 col-lg-4">
-							<p th:text="${count.pName}"></p>
-							<form th:action="@{'productprofile/'+${count.pName}}" th:object="${count} method="post">
-								<button type="submit"><img th:src="@{${count.sImage}}" th:alt="${count.pName}" border="0"/></button>
+							<p th:text="${prod.pName}"></p>
+							<form action="#" th:action="@{'productprofile/'+${prod.pName}}" th:object="${prod}" method="post">
+								<input type="hidden" name="pName" th:value="${prod.pName}"/>
+								<input type="hidden" name="inStock" th:value="${prod.inStock}"/>
+								<input type="hidden" name="price" th:value="${prod.price}"/>
+								<input type="hidden" name="lDesc" th:value="${prod.lDesc}"/>
+								<input type="hidden" name="lImage" th:value="${prod.lImage}"/>
+								<button type="submit"><img th:src="@{${prod.sImage}}" th:alt="${prod.pName}" border="0"/></button>
 							</form>
 						</div>
 						<div class="col-sm-8 col-md-8 col-lg-8">
-							<div class="sDesc" th:text="${count.sDesc}"></div>
+							<div class="sDesc" th:text="${prod.sDesc}"></div>
 							<div class="price-stock">
-								<div class="inStock" th:if="${count.inStock}>0">In stock!</div>
-								<div class="inStock" th:if="${count.inStock}==0">Not in stock!</div>
-								<div class="price" th:text="${'$' + count.price}"></div>
+								<div class="inStock" th:if="${prod.inStock}>0">In stock!</div>
+								<div class="inStock" th:if="${prod.inStock}==0">Not in stock!</div>
+								<div class="price" th:text="${'$' + prod.price}"></div>
 							</div>
 						</div>
 					</div>
