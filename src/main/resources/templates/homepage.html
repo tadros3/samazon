@@ -1,183 +1,94 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="www.thymeleaf.org " xmlns:sec="www.thymeleaf.org/extras/spring-security">
+<html lang="en" xmlns:th="www.thymeleaf.org "
+	xmlns:sec="www.thymeleaf.org/extras/spring-security">
 <head>
-    <meta charset="utf-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
-    <title>Samazon Homepage</title>
-    <th:block th:replace="base :: head"></th:block>
+<meta charset="utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+<title>Samazon Homepage</title>
+<th:block th:replace="base :: head"></th:block>
 </head>
 <body>
-<th:block th:replace="base :: nav"></th:block>
-<div class="container">
-    <br /><br />
-    <div class="starter-template">
-        <h1>welcome!</h1>
-        <p class="lead"><br /></p>
-    </div>
-    Logged in User:
-    <div sec:authentication="name">
-        The value of the "name" property of the authentication object should appear here.
-    </div>
-    <div sec:authorize="isAuthenticated()">
-        This content is only shown to authenticated users.<br />
-        Logged user: <span sec:authentication="name">Bob</span>
-        Roles: <span sec:authentication="principal.authorities">[ROLE_USER, ROLE_ADMIN]</span>
-    </div>
-    <div sec:authorize="hasAuthority('ADMIN')" >
-        This content is only shown to administrators.
-    </div>
-    <div sec:authorize="hasAuthority('USER')" >
-        This content is only shown to users.
-    </div>
-    
-    <div class="container">
-        <div class="navbar-header">
-            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
-                <span class="sr-only">Toggle navigation</span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-            </button>
-        </div>
-        <div id="navbar" class="collapse navbar-collapse">
-            <ul class="nav navbar-nav">
-                <li>
-                <p>
-				Apple iPhone7:
-				<a href="/login">
-				<img src="http://res.cloudinary.com/dcbfgnikn/image/upload/v1500566211/iphone6plus_s_mgriog.jpg" alt="iphone7"  border="0">
-				</a>
-				</p>
-				</li>
-                <li>
-                <p>
-				Mac Book:
-				<a href="/login">
-				<img src="http://res.cloudinary.com/dcbfgnikn/image/upload/v1500566211/macbook_s_wntfbm.jpg" alt="macbook"  border="0">
-				</a>
-				</p>
-                </li>
-                <li>
-                <p>
-				Watch:
-				<a href="/login">
-				<img src="http://res.cloudinary.com/dcbfgnikn/image/upload/v1500566211/watch_m1_cxgvd5.jpg"  border="0">
-				</a>
-				</p>
-                </li>
-            </ul>
-        </div><!--/.nav-collapse -->
-        
-        <div th:if="${not #lists.isEmpty(prods)}">
-    	<h2>Products List</h2>
-    	 <th:block  th:each="count : ${prods}">
-    	 	<div class="col-sm-4 col-md-4 col-lg-4">
-                <p th:text="${count.pName}">
-           		  </p>
-            	<form th:action="@{'/productprofile/'+${count.pName}}" th:object="${count}" method="post"> 
-				
-				<button type="submit"> <img th:src="@{${count.sImage}}" th:alt="${count.pName}"  border="0"/></button>
-       			</form>
-				</div>
+	<th:block th:replace="base :: nav"></th:block>
+	<div class="container">
+		<br />
+		<br />
+		<div class="starter-template">
+			<h1>welcome!</h1>
+			<p class="lead">
+				<br />
+			</p>
+		</div>
+		Logged in User:
+		<div sec:authentication="name">The value of the "name" property
+			of the authentication object should appear here.</div>
+		<div sec:authorize="isAuthenticated()">
+			This content is only shown to authenticated users.<br /> Logged
+			user: <span sec:authentication="name">Bob</span> Roles: <span
+				sec:authentication="principal.authorities">[ROLE_USER,
+				ROLE_ADMIN]</span>
+		</div>
+		<div sec:authorize="hasAuthority('ADMIN')">This content is only
+			shown to administrators.</div>
+		<div sec:authorize="hasAuthority('USER')">This content is only
+			shown to users.</div>
+
+		<div class="container">
+			<div class="navbar-header">
+				<button type="button" class="navbar-toggle collapsed"
+					data-toggle="collapse" data-target="#navbar" aria-expanded="false"
+					aria-controls="navbar">
+					<span class="sr-only">Toggle navigation</span> <span
+						class="icon-bar"></span> <span class="icon-bar"></span> <span
+						class="icon-bar"></span>
+				</button>
+			</div>
+			<!--/.nav-collapse -->
+
+			<div th:if="${not #lists.isEmpty(prods)}">
+				<h2>Products List</h2>
+				<th:block th:each="count : ${prods}">
+					<div class="col-sm-4 col-md-4 col-lg-4 product-home">
+						<div class="col-sm-4 col-md-4 col-lg-4">
+							<p th:text="${count.pName}"></p>
+							<form th:action="@{'productprofile/'+${count.pName}}" th:object="${count} method="post">
+								<button type="submit"><img th:src="@{${count.sImage}}" th:alt="${count.pName}" border="0"/></button>
+							</form>
+						</div>
+						<div class="col-sm-8 col-md-8 col-lg-8">
+							<div class="sDesc" th:text="${count.sDesc}"></div>
+							<div class="price-stock">
+								<div class="inStock" th:if="${count.inStock}>0">In stock!</div>
+								<div class="inStock" th:if="${count.inStock}==0">Not in stock!</div>
+								<div class="price" th:text="${'$' + count.price}"></div>
+							</div>
+						</div>
+					</div>
+			</div>
+
 		</div>
 
-    </div>
-    
-    	<div class="row-fluid">
-	<!-- LEFT SIDE CATEGORIES-->   
-	<div class="span3">         
-		<div class="well">
-			<ul id="cat-navi" class="nav nav-list">
-			  <li class="nav-header">Shop by Product</li>
-			  <li class="active"><a href="http://www.bootstraptor.com">Active category</a></li>
-			  <li><a href="http://www.bootstraptor.com">New in: Category</a></li>
-			  <li><a href="http://www.bootstraptor.com">New in: Category</a></li>
-			  <li><a href="http://www.bootstraptor.com">New in: Category</a></li>
-			  <li><a href="http://www.bootstraptor.com">New in: Category</a></li>
-			  <li><a href="http://www.bootstraptor.com">New in: Category</a></li>
-			</ul>
-			
-			<hr>
-			
-			<ul id="cat-navi2" class="nav nav-list hidden-phone">
-			  <li class="nav-header">MOST POPURAL</li>
-			  <li class="active"><a href="http://www.bootstraptor.com">Active category</a></li>
-			  <li><a href="http://www.bootstraptor.com">Category title</a></li>
-			  <li><a href="http://www.bootstraptor.com">Category title</a></li>
-			  <li><a href="http://www.bootstraptor.com">Category title</a></li>
-			  <li><a href="http://www.bootstraptor.com">Category title</a></li>
-			  <li><a href="http://www.bootstraptor.com">Category title</a></li>
-			  <li><a href="http://www.bootstraptor.com">Category title</a></li>
-			  <li><a href="http://www.bootstraptor.com">Category title</a></li>
-			  <li><a href="http://www.bootstraptor.com">Category title</a></li>
-			  <li><a href="http://www.bootstraptor.com">Category title</a></li>
-			  <li><a href="http://www.bootstraptor.com">Category title</a></li>
-			</ul>
-			
-			
-		
-	<!-- /left SIDE--> 
-	
-		<!-- CONTENT SIDE-->
-	<div class="span9">
-        <div id="navbar" class="collapse navbar-collapse">
-            <ul class="nav navbar-nav">
-                <li>
-                <p>
-				Apple iPhone7:
-				<a href="/login">
-				<img src="http://res.cloudinary.com/dcbfgnikn/image/upload/v1500566211/iphone6plus_s_mgriog.jpg" alt="iphone7"  border="0">
-				</a>
-				</p>
-				</li>
-                <li>
-                <p>
-				Mac Book:
-				<a href="/login">
-				<img src="http://res.cloudinary.com/dcbfgnikn/image/upload/v1500566211/macbook_s_wntfbm.jpg" alt="macbook"  border="0">
-				</a>
-				</p>
-                </li>
-                <li>
-                <p>
-				Watch:
-				<a href="/login">
-				<img src="http://res.cloudinary.com/dcbfgnikn/image/upload/v1500566211/watch_m1_cxgvd5.jpg"  border="0">
-				</a>
-				</p>
-                </li>
-            </ul>
-        </div><!--/.nav-collapse -->
-
-    
-
-<!-- /PAGINATION-->
-</div>
-<!-- /CONTENT SIDE-->
+	</div>
+	<!-- /.container -->
+	<style>
+		.product-home:hover {
+			background-color: #f2f2f2;
+		}
+		.product-home {
+			height: 200px;
+			padding-bottom:10px;
+			border: 1px solid black;
+		}
+		.price-stock {
+			float: right;
+		}
+		.sDesc {
+			margin-bottom:50%;
+		}
+	</style>
 
 
-    
-	
-</div>
-
-</div> <!-- span3-->
-
-
-		
-
- 
-</div> <!-- /OUTER ROW-FLUID-->
-    
-    
-    
-    
-    
-</div><!-- /.container -->
-
-
-
-<th:block th:replace="base :: footlinks"></th:block>
+	<th:block th:replace="base :: footlinks"></th:block>
 </body>
 </html>
