@@ -8,8 +8,8 @@ import samazon.models.Product;
 
 public interface LineItemRepository  extends CrudRepository<LineItem, Long>{
 		
-	LineItem findByOrder(Order order);
-	LineItem findByProductAndOrder(Product prod,Order order);
+	//LineItem findByOrderId(Long orderId);
+	//LineItem findByProductIdAndOrderId(Long ,Long orderId);
 	
 	
 }

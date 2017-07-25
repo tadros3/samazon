@@ -3,6 +3,7 @@ package samazon.controllers;
 import java.security.Principal;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
 import javax.validation.Valid;
 
@@ -66,20 +67,25 @@ public class HomeController {
     	System.out.println(product.getId());
     	//product=new Product();
     	//product.setId(1);
-    	Collection<Order> orders= user.getOrders();
+    	List<Order> orders= user.getOrders();
     	Order order = ordService.findByOpenOrder("true");
     	if(order==null)
     	{
     		order = new Order();
     		order.setOpenOrder("true");
-    		order.setUser(user);
+    		//order.setUser(user);
+    		user.getOrders().add(order);
+    		user.setOrders(orders);
     		ordService.saveOrder(order);
+    		userService.saveUser(user);
     	}
     	model.addAttribute("openorder",order);
     	LineItem litem = new LineItem();
     	litem.setOrder(order);
     	litem.setProduct(product);
+    	order.addLineItem(litem);
         lService.saveLineItem(litem);
+        ordService.saveOrder(order);
     	System.out.println(order.getLineItems());
         model.addAttribute("lineitems",order.getLineItems());
     	

@@ -1,8 +1,11 @@
 package samazon.models;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
+import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -25,7 +28,7 @@ public class Order {
     private long id;
 	
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "orderId")
+	@JoinColumn(name = "userId")
 	private User user;
 	
 	@Column(name = "timestamp")
@@ -40,9 +43,12 @@ public class Order {
 	@Column (name = "open_order")
 	private String openOrder;
 	
-	@OneToMany(fetch = FetchType.EAGER)
+	@OneToMany(fetch = FetchType.EAGER,cascade = {CascadeType.PERSIST})
+	//@OneToMany(cascade = {CascadeType.ALL},orphanRemoval=true)
+	//@OneToMany(fetch = FetchType.EAGER,mappedBy="order",cascade = {CascadeType.ALL})
 	@JoinTable(joinColumns = @JoinColumn(name = "order_id"),inverseJoinColumns = @JoinColumn(name = "item_id"))
-	private Collection<LineItem> lineItems;
+	//@JoinColumn(name = "orderId")
+	private List<LineItem> lineItems = new ArrayList<LineItem>();
 	
 	public Order() {
 		
@@ -88,11 +94,11 @@ public class Order {
 		this.paymentMethod = paymentMethod;
 	}
 
-	public Collection<LineItem> getLineItems() {
+	public List<LineItem> getLineItems() {
 		return lineItems;
 	}
 
-	public void setLineItems(Collection<LineItem> lineItems) {
+	public void setLineItems(List<LineItem> lineItems) {
 		this.lineItems = lineItems;
 	}
 
@@ -102,5 +108,10 @@ public class Order {
 
 	public void setOpenOrder(String openOrder) {
 		this.openOrder = openOrder;
+	}
+	
+	public void addLineItem(LineItem litem)
+	{
+		lineItems.add(litem);
 	}
 }

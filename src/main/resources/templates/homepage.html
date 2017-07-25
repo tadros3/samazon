@@ -58,7 +58,9 @@
 								<input type="hidden" name="inStock" th:value="${prod.inStock}"/>
 								<input type="hidden" name="price" th:value="${prod.price}"/>
 								<input type="hidden" name="lDesc" th:value="${prod.lDesc}"/>
+								<input type="hidden" name="sDesc" th:value="${prod.sDesc}"/>
 								<input type="hidden" name="lImage" th:value="${prod.lImage}"/>
+								<input type="hidden" name="sImage" th:value="${prod.sImage}"/>
 								<button type="submit"><img th:src="@{${prod.sImage}}" th:alt="${prod.pName}" border="0"/></button>
 							</form>
 						</div>

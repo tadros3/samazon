@@ -1,6 +1,8 @@
 package samazon.models;
 
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -43,9 +45,12 @@ public class Product{
 	 @Column(name = "l_desc")
 	 private String lDesc;
 	 
-	 @OneToMany(fetch = FetchType.EAGER)
+	 @OneToMany(fetch = FetchType.EAGER,cascade = {CascadeType.PERSIST})
+	 //@OneToMany(cascade = {CascadeType.ALL},orphanRemoval=true)
+	// @OneToMany(fetch = FetchType.EAGER,mappedBy="product",cascade = {CascadeType.ALL})
 	 @JoinTable(joinColumns = @JoinColumn(name = "product_id"),inverseJoinColumns = @JoinColumn(name = "item_id"))
-	 private Collection<LineItem> litem;
+	 //@JoinColumn(name = "productid")
+	 private List<LineItem> litem = new ArrayList<LineItem>();
 	 
 	 
 	 public long getId() {
@@ -112,11 +117,11 @@ public class Product{
 		this.lDesc = lDesc;
 	}
 
-	public Collection<LineItem> getLitem() {
+	public List<LineItem> getLitem() {
 		return litem;
 	}
 
-	public void setLitem(Collection<LineItem> litem) {
+	public void setLitem(List<LineItem> litem) {
 		this.litem = litem;
 	}
 

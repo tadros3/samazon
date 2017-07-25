@@ -7,9 +7,9 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToOne;
-import javax.persistence.PrimaryKeyJoinColumn;
+
 
 @Entity
 public class LineItem {
@@ -18,13 +18,15 @@ public class LineItem {
     private long id;
 	
 	@ManyToOne(fetch = FetchType.LAZY)
-	@PrimaryKeyJoinColumn
+	@JoinColumn(name = "productid", nullable = false)
+	//@PrimaryKeyJoinColumn
 	private Product product;
 	
 	@Column(name = "quantity")
 	private long quantity;
 	
 	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "orderid", nullable = false)
 	private Order order;
 	
 	public LineItem() {
@@ -46,7 +48,7 @@ public class LineItem {
 	public void setProduct(Product product) {
 		this.product = product;
 	}
-
+	
 	public long getQuantity() {
 		return quantity;
 	}
@@ -62,4 +64,5 @@ public class LineItem {
 	public void setOrder(Order order) {
 		this.order = order;
 	}
+	
 }

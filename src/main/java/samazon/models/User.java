@@ -8,7 +8,9 @@ import org.springframework.data.annotation.*;
 import javax.persistence.*;
 import javax.persistence.Id;
 
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 import java.util.Set;
 @Entity
 public class User {
@@ -38,9 +40,12 @@ public class User {
     @Column(name = "role")
     private String role;
     
-    @OneToMany(fetch = FetchType.EAGER,mappedBy = "user",cascade = {CascadeType.ALL})
-    //@JoinTable(joinColumns = @JoinColumn(name = "user_id"),inverseJoinColumns = @JoinColumn(name = "order_id"))
-    private Collection<Order> orders;
+    @OneToMany(fetch = FetchType.EAGER,cascade = {CascadeType.PERSIST})
+    //@OneToMany(cascade = {CascadeType.ALL},orphanRemoval=true)
+    @JoinTable(joinColumns = @JoinColumn(name = "user_id"),inverseJoinColumns = @JoinColumn(name = "order_id"))
+    //@OneToMany(fetch = FetchType.EAGER,mappedBy="user",cascade = {CascadeType.ALL})
+   // @JoinColumn(name="user_id")
+    private List<Order> orders =new ArrayList<Order>();
     
     public User() {
     	
@@ -120,11 +125,11 @@ public class User {
 		this.role = role;
 	}
 
-	public Collection<Order> getOrders() {
+	public List<Order> getOrders() {
 		return orders;
 	}
 
-	public void setOrders(Collection<Order> orders) {
+	public void setOrders(List<Order> orders) {
 		this.orders = orders;
 	}
     
