@@ -133,5 +133,8 @@ public class User {
 		this.orders = orders;
 	}
     
+	public void addOrder(Order order) {
+		orders.add(order);
+	}
     
 }

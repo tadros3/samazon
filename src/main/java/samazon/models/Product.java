@@ -124,5 +124,9 @@ public class Product{
 	public void setLitem(List<LineItem> litem) {
 		this.litem = litem;
 	}
+	
+	public void addLineItem(LineItem lineitem) {
+		litem.add(lineitem);
+	}
 
 }

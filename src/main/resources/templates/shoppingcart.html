@@ -15,15 +15,31 @@
 		<br />
 		<br />
 		<div class="starter-template">
-			<h1>shopping Cart Products</h1>
+			<h1>Shopping Cart Products</h1>
 			<!-- <p  th:text = "'UserName: ' + ${user.firstName}"/> -->
-			<th:block th:each="lineitem : ${lineitems}">
-			<div th:text="${lineitem.quantity}"></div>
-			
-			<p class="lead">
-				<br />
-			</p>
-			</th:block>
+			<table class="table-responsive table-hover table-bordered" id="shoppingcart">
+				<tr>
+					<th></th>
+					<th>Product Name</th>
+					<th>Description</th>
+					<th>Quantity</th>
+					<th>Unit Price</th>
+					<th>Total Price</th>
+				</tr>
+				<th:block th:each="lineitem : ${lineitems}">
+					<tr>
+						<td class="text-center"><img th:src="@{${lineitem.product.sImage}}"/></td>
+						<td class="text-center" th:text="${lineitem.product.pName}"></td>
+						<td class="text-center" th:text="${lineitem.product.sDesc}"></td>
+						<td class="text-center" th:text="${lineitem.quantity}"></td>
+						<td class="text-center" th:text="${lineitem.product.price}"></td>
+						<td class="text-center" th:text="${#numbers.formatDecimal(lineitem.quantity*lineitem.product.price,0,'COMMA',2,'POINT')}"></td>
+					</tr>
+				</th:block>
+			</table>
+			<form th:action="@{orderconfirmation}" th:object="${lineitems}" method="post">
+				<button class="btn btn-success btn-block" type="submit">Check Out</button>
+			</form>
 		</div>
 </div>
 </body>

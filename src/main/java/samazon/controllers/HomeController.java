@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import samazon.models.LineItem;
 import samazon.models.Order;
@@ -61,21 +62,18 @@ public class HomeController {
     */
     
     @RequestMapping("/shoppingcart")
-    public String shoppingcart(Principal principal,Model model,@Valid @ModelAttribute("pprof") Product product, BindingResult result){
+    public String shoppingcart(Principal principal,Model model,@Valid @ModelAttribute("pprof") Product product, @RequestParam("quantity") long quantity, BindingResult result){
     	System.out.println(principal.getName());
     	User user = userService.findByUsername(principal.getName());
     	System.out.println(product.getId());
-    	//product=new Product();
-    	//product.setId(1);
     	List<Order> orders= user.getOrders();
     	Order order = ordService.findByOpenOrder("true");
     	if(order==null)
     	{
     		order = new Order();
     		order.setOpenOrder("true");
-    		//order.setUser(user);
-    		user.getOrders().add(order);
-    		user.setOrders(orders);
+    		order.setUser(user);
+    		user.addOrder(order);
     		ordService.saveOrder(order);
     		userService.saveUser(user);
     	}
@@ -83,8 +81,11 @@ public class HomeController {
     	LineItem litem = new LineItem();
     	litem.setOrder(order);
     	litem.setProduct(product);
+    	litem.setQuantity(quantity);
     	order.addLineItem(litem);
+    	product.addLineItem(litem);
         lService.saveLineItem(litem);
+        prodService.saveProduct(product);
         ordService.saveOrder(order);
     	System.out.println(order.getLineItems());
         model.addAttribute("lineitems",order.getLineItems());
