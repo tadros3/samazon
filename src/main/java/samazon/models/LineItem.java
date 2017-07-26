@@ -29,8 +29,11 @@ public class LineItem {
 	@JoinColumn(name = "orderid", nullable = false)
 	private Order order;
 	
+	@Column(name = "deleted")
+	private String deleted;
+	
 	public LineItem() {
-		
+		deleted = "false";
 	}
 
 	public long getId() {
@@ -63,6 +66,14 @@ public class LineItem {
 
 	public void setOrder(Order order) {
 		this.order = order;
+	}
+
+	public String getDeleted() {
+		return deleted;
+	}
+
+	public void setDeleted(String deleted) {
+		this.deleted = deleted;
 	}
 	
 }

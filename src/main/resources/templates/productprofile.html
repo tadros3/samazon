@@ -49,7 +49,7 @@
 									<input type="hidden" name="lImage" th:value="${pprof.lImage}"/>
 									<input type="hidden" name="sDesc" th:value="${pprof.sDesc}"/>
 									<input type="hidden" name="sImage" th:value="${pprof.sImage}"/>
-									<input type="number" id="quantity" class="form-control" name="quantity"/>
+									<input type="number" id="quantity" class="form-control" name="quantity" min="1" th:max="${pprof.inStock}" value="1"/>
 									<button class="btn btn-success btn-block" type="submit">Add to cart</button>
 								</form>
 								</div>

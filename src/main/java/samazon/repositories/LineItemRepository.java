@@ -11,5 +11,5 @@ public interface LineItemRepository  extends CrudRepository<LineItem, Long>{
 	//LineItem findByOrderId(Long orderId);
 	//LineItem findByProductIdAndOrderId(Long ,Long orderId);
 	
-	
+	LineItem findByOrderAndProduct(Order order, Product product);
 }

@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import samazon.models.Order;
+import samazon.models.User;
 import samazon.repositories.OrderRepository;
 
 @Service
@@ -21,5 +22,8 @@ public class OrderService {
 		order.save(ord);
 	}
 	
+	public Order findByOpenOrderAndUser(String open, User user) {
+		return order.findByOpenOrderAndUser(open, user);
+	}
 
 }

@@ -114,4 +114,8 @@ public class Order {
 	{
 		lineItems.add(litem);
 	}
+	
+	public void removeLineItem(LineItem litem) {
+		lineItems.remove(litem);
+	}
 }

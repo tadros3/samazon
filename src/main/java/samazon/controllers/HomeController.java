@@ -66,13 +66,44 @@ public class HomeController {
         return "orderconfirmation";
     }
     
+    @RequestMapping(value="/shoppingcart", method = RequestMethod.GET)
+    public String showshoppingcart(Principal principal, Model model){
+    	User user = userService.findByUsername(principal.getName());
+    	Order order = ordService.findByOpenOrderAndUser("true", user);
+    	double total = 0.0;
+    	if (order != null && order.getLineItems() != null) {
+    		model.addAttribute("lineitems",order.getLineItems());
+    		total = calcTotalPrice(order.getLineItems());
+    	}
+    	model.addAttribute("total",total);
+        return "shoppingcart";
+    }
+    
+    @RequestMapping("/deletefromcart")
+    public String deletefromcart(Principal principal, Model model, @Valid @ModelAttribute("lineitem") LineItem litem, BindingResult result) {
+    	litem.setDeleted("true");
+    	lService.saveLineItem(litem);
+    	return showshoppingcart(principal,model);
+    }
+    
+    private double calcTotalPrice(List<LineItem> litems) {
+    	double totalPrice = 0.0;
+    	for (LineItem litem: litems) {
+    		if (litem.getDeleted().equals("false")) {
+    			totalPrice += litem.getQuantity() * litem.getProduct().getPrice();
+    		}
+    	}
+    	return totalPrice;
+    }
+    
     @RequestMapping("/shoppingcart")
     public String shoppingcart(Principal principal,Model model,@Valid @ModelAttribute("pprof") Product product, @RequestParam("quantity") long quantity, BindingResult result){
     	System.out.println(principal.getName());
     	User user = userService.findByUsername(principal.getName());
     	System.out.println(product.getId());
-    	List<Order> orders= user.getOrders();
-    	Order order = ordService.findByOpenOrder("true");
+    	//List<Order> orders= user.getOrders();
+    	//Order order = ordService.findByOpenOrder("true");
+    	Order order = ordService.findByOpenOrderAndUser("true", user);
     	if(order==null)
     	{
     		order = new Order();
@@ -83,26 +114,30 @@ public class HomeController {
     		userService.saveUser(user);
     	}
     	model.addAttribute("openorder",order);
-    	LineItem litem = new LineItem();
-    	litem.setOrder(order);
-    	litem.setProduct(product);
-    	litem.setQuantity(quantity);
-    	order.addLineItem(litem);
-    	product.addLineItem(litem);
+    	LineItem litem = lService.findByOrderAndProduct(order, product);
+    	if (litem == null) {
+    		litem = new LineItem();
+    		litem.setOrder(order);
+        	litem.setProduct(product);
+        	litem.setQuantity(quantity);
+        	order.addLineItem(litem);
+        	product.addLineItem(litem);
+    	}
+    	else {
+    		litem.setQuantity(quantity + litem.getQuantity());
+    	}
         lService.saveLineItem(litem);
         prodService.saveProduct(product);
         ordService.saveOrder(order);
     	System.out.println(order.getLineItems());
         model.addAttribute("lineitems",order.getLineItems());
-    	
+    	double total = calcTotalPrice(order.getLineItems());
+    	model.addAttribute("total",total);
         return "shoppingcart";
     }
     
     @RequestMapping(value="/productprofile/{pName}", method = RequestMethod.POST)
     public String showproductprofile(@Valid @ModelAttribute("prod") Product product, BindingResult result,Model model){
-    	System.out.println(product.getPName());
-    	System.out.println(product.getLDesc());
-        System.out.println(product.getSDesc());
     	model.addAttribute("pprof", product);
         return "productprofile";
     }
@@ -136,9 +171,6 @@ public class HomeController {
     @RequestMapping(value="/addproduct", method = RequestMethod.POST)
     public String processaddPage(@Valid @ModelAttribute("product") Product product, BindingResult result, Model model){
         model.addAttribute("product", product);
-        System.out.println(product.getLDesc());
-        System.out.println(product.getPName());
-        System.out.println(product.getSDesc());
         prodValidator.validate(product, result);
         if (result.hasErrors()) {
             return "addproduct";

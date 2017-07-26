@@ -128,5 +128,9 @@ public class Product{
 	public void addLineItem(LineItem lineitem) {
 		litem.add(lineitem);
 	}
+	
+	public void removeLineItem(LineItem lineitem) {
+		litem.remove(lineitem);
+	}
 
 }
