@@ -91,6 +91,11 @@
 			<artifactId>commons-validator</artifactId>
 			<version>1.5.1</version>
 		</dependency>
+		<dependency>
+    	<groupId>it.ozimov</groupId>
+    	<artifactId>spring-boot-email-core</artifactId>
+    	<version>0.6.2</version>
+		</dependency>
 	</dependencies>
 
 	<build>

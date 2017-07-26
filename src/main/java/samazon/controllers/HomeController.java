@@ -1,10 +1,12 @@
 package samazon.controllers;
 
+import java.io.UnsupportedEncodingException;
 import java.security.Principal;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+import javax.mail.internet.InternetAddress;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +19,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.google.common.collect.Lists;
+
+import it.ozimov.springboot.mail.model.Email;
+import it.ozimov.springboot.mail.model.defaultimpl.DefaultEmail;
+import it.ozimov.springboot.mail.service.EmailService;
 import samazon.models.LineItem;
 import samazon.models.Order;
 import samazon.models.Product;
@@ -43,6 +50,8 @@ public class HomeController {
 	private OrderService ordService;
 	@Autowired
 	private LineItemService lService;
+	@Autowired
+	public EmailService emailService;
 	//@Autowired
 	//private SSUserDetailsService sservice;
 	
@@ -62,7 +71,9 @@ public class HomeController {
     */
     
     @RequestMapping("/orderconfirmation")
-    public String orderconfirmation(){
+    public String orderconfirmation(@Valid @ModelAttribute("lineitems") ArrayList<LineItem> litem,Model model){
+    	model.addAttribute("lineitems",litem);
+    	model.addAttribute("total", calcTotalPrice(litem));
         return "orderconfirmation";
     }
     
@@ -95,6 +106,39 @@ public class HomeController {
     	}
     	return totalPrice;
     }
+    @RequestMapping("/ordersuccess")
+    public String ordersuccess(Principal principal,@RequestParam("input_address") String address,@RequestParam("input_email") String email) throws UnsupportedEncodingException{
+    	User user = userService.findByUsername(principal.getName());
+    	System.out.println(user.getUsername());
+    	int order_num=0;
+    	if(user.getOrders()!=null)
+    	{
+	    	List<Order> ord = user.getOrders(); 
+	    	int i=0;
+	    	for(;i<ord.size();i++)
+	    	{
+	    		if(ord.get(i).getOpenOrder().equals("true"))
+	    		{
+	    			System.out.println(ord.get(i).getOpenOrder());
+	    			break;
+	    		}
+	    	}
+	    	Order order = ord.get(i);
+	    	order.setOpenOrder("false");
+	    	order.setPaymentMethod("Credit Card");
+	    	order.setShippingAddress(address);
+	    	order_num=ord.get(i).getLineItems().size();
+	    	for (LineItem litem: order.getLineItems()) {
+	    		Product prod = litem.getProduct();
+	    		prod.setInStock(prod.getInStock() - litem.getQuantity());
+	    		prodService.saveProduct(prod);
+	    	}
+	    	ordService.saveOrder(order);
+    	}
+    	System.out.println(address);
+    	sendEmailWithoutTemplating(user.getUsername(),email,order_num); 
+        return "ordersuccess";
+    }
     
     @RequestMapping("/shoppingcart")
     public String shoppingcart(Principal principal,Model model,@Valid @ModelAttribute("pprof") Product product, @RequestParam("quantity") long quantity, BindingResult result){
@@ -125,6 +169,7 @@ public class HomeController {
     	}
     	else {
     		litem.setQuantity(quantity + litem.getQuantity());
+    		litem.setDeleted("false");
     	}
         lService.saveLineItem(litem);
         prodService.saveProduct(product);
@@ -186,4 +231,23 @@ public class HomeController {
     public void setUserValidator(UserValidator userValidator) {
         this.userValidator = userValidator;
     }
+    
+    public void sendEmailWithoutTemplating(String username,String useremail,int order_num) throws UnsupportedEncodingException{
+
+		  final Email email = DefaultEmail.builder()
+
+		        .from(new InternetAddress("meensat3@gmail.com", "Samazon Admin"))
+
+		        .to(Lists.newArrayList(new InternetAddress(useremail, username)))
+
+		        .subject("Your Order in Samazon")
+
+		        .body("Hello "+username+", Thanks for ordering with Samazon.You have ordered "+order_num+" item")
+
+		        .encoding("UTF-8").build();
+
+		  emailService.send(email);
+
+		}
+	
 }
