@@ -61,6 +61,11 @@ public class HomeController {
     }
     */
     
+    @RequestMapping("/orderconfirmation")
+    public String orderconfirmation(){
+        return "orderconfirmation";
+    }
+    
     @RequestMapping("/shoppingcart")
     public String shoppingcart(Principal principal,Model model,@Valid @ModelAttribute("pprof") Product product, @RequestParam("quantity") long quantity, BindingResult result){
     	System.out.println(principal.getName());
