@@ -16,13 +16,13 @@
 //    @Override
 //   public void run(String... strings) throws Exception {
 //        System.out.println("Loading data . . .");
-//        User user = new User("bob@bob.com","bob","Bob","Bobberson", true, "bob", "user");
+//        User user = new User("bob@bob.com","bob","Bob","Bobberson", true, "bob", "USER");
 //        user.setPassword(passwordEncoder.encode(user.getPassword()));
 //        userRepository.save(user);
-//        user = new User("jim@jim.com","jim","Jim","Jimmerson", true, "jim", "user");
+//        user = new User("jim@jim.com","jim","Jim","Jimmerson", true, "jim", "USER");
 //        user.setPassword(passwordEncoder.encode(user.getPassword()));
 //        userRepository.save(user);
-//        user = new User("admin@secure.com","password","Admin","User", true, "admin", "admin");
+//        user = new User("admin@secure.com","password","Admin","User", true, "admin", "ADMIN");
 //        user.setPassword(passwordEncoder.encode(user.getPassword()));
 //        userRepository.save(user);
 //    }

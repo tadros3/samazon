@@ -10,4 +10,5 @@ public interface ProductRepository extends CrudRepository<Product, Long>{
     Product findByPName(String pName);
     long countByPName(String pName);
     ArrayList<Product> findAll();
+    ArrayList<Product> findByActive(String active);
 }
