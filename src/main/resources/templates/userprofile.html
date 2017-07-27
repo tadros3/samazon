@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="www.thymeleaf.org " xmlns:sec="www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <title>User Profile</title>
+    <th:block th:replace="base :: head"></th:block>
+</head>
+<body>
+<th:block th:replace="base :: nav"></th:block>
+<div class="container">
+    <br /><br /><br/>
+    
+    <div class="container">
+      <div class="row">
+      <div class="col-md-5  toppad  pull-right col-md-offset-3 ">
+           
+
+        <A href="login.html" >Logout</A>
+       <br>
+	<p class=" text-info"><script> document.write(new Date().toLocaleDateString()); </script> </p>
+      </div>
+        <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 col-xs-offset-0 col-sm-offset-0 col-md-offset-3 col-lg-offset-3 toppad" >
+   
+   
+          <div class="panel panel-info">
+            <div class="panel-heading">
+              <h3 class="panel-title"  th:text="${user.username}"> </h3>
+            </div>
+            <div class="panel-body">
+              <div class="row">
+                <div class="col-md-3 col-lg-3 " align="center"> <img alt="User Pic" src="http://res.cloudinary.com/dcbfgnikn/image/upload/v1501164019/anonymous-user-646f5626364f04cb725621cdc9f0768e_rqvok5.png" class="img-circle img-responsive"> </div>
+                
+                <!--<div class="col-xs-10 col-sm-10 hidden-md hidden-lg"> <br>
+                  <dl>
+                    <dt>DEPARTMENT:</dt>
+                    <dd>Administrator</dd>
+                    <dt>HIRE DATE</dt>
+                    <dd>11/12/2013</dd>
+                    <dt>DATE OF BIRTH</dt>
+                       <dd>11/12/2013</dd>
+                    <dt>GENDER</dt>
+                    <dd>Male</dd>
+                  </dl>
+                </div>-->
+                <div class=" col-md-9 col-lg-9 "> 
+                  <table class="table table-user-information">
+                    <tbody>
+                      <tr>
+                        <td>Role:</td>
+                        <td><p class="lead" th:text="${user.role}"></p></td>
+                      </tr>
+                      <tr>
+                        <td>User ID:</td>
+                        <td><p class="lead" th:text="${user.id}"></p></td>
+                      </tr>
+                      <tr>
+                        <td>Email</td>
+                        <td><p class="lead" th:text="${user.email}"></p></td>
+                      </tr>
+                   
+                         <tr>
+                             <tr>
+                        <td>First Name</td>
+                        <td><p class="lead" th:text="${user.firstName}"></p></td>
+                      </tr>
+                        <tr>
+                        <td>Last Name</td>
+                        <td><p class="lead" th:text="${user.lastName}"></p></td>
+                      </tr>
+                      <tr>
+                        <td>Address</td>
+                        <td><p class="lead">Rockvile,Maryland</p></td>
+                      </tr>
+                        <td>Phone Number</td>
+                        <td><p class="lead">123-4567-890(Landline)<br><br>555-4567-890(Mobile)
+                        </p></td>
+                           
+                      </tr>
+                     
+                    </tbody>
+                  </table>
+                  <form action="#" th:action="@{/}" style="float: left;">
+                  <button class="btn btn-primary" type="submit">My Homepage</button>
+                  </form>
+                  
+                  <form action="#" th:action="@{/addproduct}" style="float: right;">
+                  <button class="btn btn-primary" type="submit">Add Product</button>
+                  </form>
+                </div>
+              </div>
+            </div>
+            
+          </div>
+        </div>
+      </div>
+    </div>
+    
+</div>
+
+</body>
+</html>

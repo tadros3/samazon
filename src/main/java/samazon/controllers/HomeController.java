@@ -64,6 +64,23 @@ public class HomeController {
     public String login(){
         return "login";
     }
+    
+    @RequestMapping("/userprofile")
+    public String userprofile(Principal principal,Model model){
+    	User user = userService.findByUsername(principal.getName());
+    	//System.out.println(user.getUsername());
+    	model.addAttribute("user", user);
+        return "userprofile";
+    }
+    
+    @RequestMapping("/orderhistory")
+    public String orderhistory(Principal principal,Model model){
+    	User user = userService.findByUsername(principal.getName());
+    	//System.out.println(user.getUsername());
+    	List<Order> ord = ordService.findByUser(user);
+    	model.addAttribute("orders", ord);
+        return "orderhistory";
+    }
    /* @RequestMapping("/productprofile")
     public String productprofile(){
         return "productprofile";

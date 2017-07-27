@@ -1,5 +1,7 @@
 package samazon.repositories;
 
+import java.util.List;
+
 import org.springframework.data.repository.CrudRepository;
 
 import samazon.models.Order;
@@ -10,5 +12,6 @@ public interface OrderRepository  extends CrudRepository<Order, Long>{
 	
 	Order findByOpenOrder(String open);
 	Order findByOpenOrderAndUser(String open, User user);
+	List<Order> findByUser(User user);
 
 }

@@ -1,5 +1,7 @@
 package samazon.services;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -24,6 +26,11 @@ public class OrderService {
 	
 	public Order findByOpenOrderAndUser(String open, User user) {
 		return order.findByOpenOrderAndUser(open, user);
+	}
+	
+	public List<Order> findByUser(User user)
+	{
+		return order.findByUser(user);
 	}
 
 }
