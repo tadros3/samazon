@@ -88,9 +88,11 @@ public class HomeController {
     */
     
     @RequestMapping("/orderconfirmation")
-    public String orderconfirmation(@Valid @ModelAttribute("lineitems") ArrayList<LineItem> litem,Model model){
-    	model.addAttribute("lineitems",litem);
-    	model.addAttribute("total", calcTotalPrice(litem));
+    public String orderconfirmation(@Valid @ModelAttribute("litem") LineItem litem,Model model){
+    	Order order = litem.getOrder();
+    	List<LineItem> litems = order.getLineItems();
+    	model.addAttribute("total", calcTotalPrice(litems));
+    	model.addAttribute("lineitems",litems);
         return "orderconfirmation";
     }
     
@@ -104,6 +106,7 @@ public class HomeController {
     		total = calcTotalPrice(order.getLineItems());
     	}
     	model.addAttribute("total",total);
+    	model.addAttribute("litem", order.getLineItems().get(0));
         return "shoppingcart";
     }
     
@@ -189,13 +192,17 @@ public class HomeController {
     		litem.setQuantity(quantity + litem.getQuantity());
     		litem.setDeleted("false");
     	}
+    	System.out.println(order.getLineItems().get(0));
         lService.saveLineItem(litem);
         prodService.saveProduct(product);
         ordService.saveOrder(order);
+        
     	System.out.println(order.getLineItems());
         model.addAttribute("lineitems",order.getLineItems());
     	double total = calcTotalPrice(order.getLineItems());
     	model.addAttribute("total",total);
+    	
+    	model.addAttribute("litem", order.getLineItems().get(0));
         return "shoppingcart";
     }
     

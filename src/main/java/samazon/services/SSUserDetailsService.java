@@ -1,6 +1,8 @@
 package samazon.services;
 
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import javax.transaction.Transactional;
@@ -10,6 +12,7 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+
 import samazon.models.User;
 import samazon.repositories.UserRepository;
 
@@ -35,6 +38,7 @@ public class SSUserDetailsService implements UserDetailsService {
     }
     private Set<GrantedAuthority> getAuthorities(User user){
         Set<GrantedAuthority> authorities = new HashSet<GrantedAuthority>();
+        List<String> role = new ArrayList<String>();
         GrantedAuthority grantedAuthority = new SimpleGrantedAuthority(user.getRole());
         authorities.add(grantedAuthority);
         System.out.println("user authorities are " + authorities.toString());

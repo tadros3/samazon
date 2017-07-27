@@ -33,7 +33,7 @@
 						<td class="text-center" th:text="${lineitem.product.pName}"></td>
 						<td class="text-center" th:text="${lineitem.product.sDesc}"></td>
 						<td class="text-center" th:text="${lineitem.quantity}"></td>
-						<td class="text-center" th:text="${'$'+lineitem.product.price}"></td>
+						<td class="text-center" th:text="${'$'+#numbers.formatDecimal(lineitem.product.price,0,'COMMA',2,'POINT')}"></td>
 						<td class="text-center" th:text="${'$'+#numbers.formatDecimal(lineitem.quantity*lineitem.product.price,0,'COMMA',2,'POINT')}"></td>
 						<td>
 							<form th:action="@{deletefromcart}" th:object="${lineitem}" method="post">
@@ -47,8 +47,12 @@
 					</tr>
 				</th:block>
 			</table>
-			<div class="col-sm-3 col-md-3 col-lg-3" style="float:right;" th:text="${'Total Price: $'+total}"></div>
-			<form th:action="@{orderconfirmation}" th:object="${lineitems}" method="post">
+			<div class="col-sm-3 col-md-3 col-lg-3" style="float:right;" th:text="${'Total Price: $'+#numbers.formatDecimal(total,0,'COMMA',2,'POINT')}"></div>
+			<form th:action="@{orderconfirmation}" th:object="${litem}" method="post">
+				<input type="hidden" name="id" th:value="${litem.id}"/>
+				<input type="hidden" name="product" th:value="${litem.product.id}"/>
+				<input type="hidden" name="order" th:value="${litem.order.id}"/>
+				<input type="hidden" name="quantity" th:value="${litem.quantity}"/>
 				<button class="btn btn-success btn-block" type="submit">Check Out</button>
 			</form>
 		</div>
