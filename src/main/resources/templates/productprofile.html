@@ -12,9 +12,6 @@
 <th:block th:replace="base :: nav"></th:block>
 <div class="container">
     <br /><br /><br/>
-    
-    <p  th:text = "'id: ' + ${pprof.pName}"/>
-	<p  th:text = "'content: ' + ${pprof.pName}"/>
 		
 
 		<!-- MAIN PRODUCTS GRID-->
@@ -77,5 +74,6 @@
 			<hr>
 <!-- PAGINATION-->
  </div>
+ <th:block th:replace="base :: footlinks"></th:block>
 </body>
 </html>

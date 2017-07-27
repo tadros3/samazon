@@ -94,7 +94,8 @@ public class HomeController {
     public String deletefromcart(Principal principal, Model model, @Valid @ModelAttribute("lineitem") LineItem litem, BindingResult result) {
     	litem.setDeleted("true");
     	lService.saveLineItem(litem);
-    	return showshoppingcart(principal,model);
+    	String sc = showshoppingcart(principal,model);
+    	return "redirect:/" + sc;
     }
     
     private double calcTotalPrice(List<LineItem> litems) {
@@ -214,16 +215,64 @@ public class HomeController {
     }
     
     @RequestMapping(value="/addproduct", method = RequestMethod.POST)
-    public String processaddPage(@Valid @ModelAttribute("product") Product product, BindingResult result, Model model){
-        model.addAttribute("product", product);
-        prodValidator.validate(product, result);
-        if (result.hasErrors()) {
-            return "addproduct";
+    public String processaddPage(@Valid @ModelAttribute("product") Product product, BindingResult result, Model model, @RequestParam("ProductMethod") String num){
+    	Product prod = prodService.findByPName(product.getPName());
+    	if (num.equals("1")) {
+        	model.addAttribute("product", product);
+            prodValidator.validate(product, result);
+            if (result.hasErrors()) {
+                return "addproduct";
+            } else {
+                prodService.saveProduct(product);
+                model.addAttribute("message", "Product Successfully Created");
+            }
+        } else if (num.equals("2")) {
+        	if (prod != null && prod.getActive().equals("active")) {
+        		System.out.println(prod.getPName() + ": " + prod.getSDesc());
+        		System.out.println(product.getInStock());
+        		if (product.getInStock() != 0) {
+            		long stock = product.getInStock() == -1 ? 0 : product.getInStock();
+            		prod.setInStock(stock);
+            	}
+            	if (!product.getSDesc().equals("")) {
+            		prod.setSDesc(product.getSDesc());
+            	}
+            	if (!product.getLDesc().equals("")) {
+            		prod.setLDesc(product.getLDesc());
+            	}
+            	if (!product.getSImage().equals("")) {
+            		prod.setSImage(product.getSImage());
+            	}
+            	if (!product.getLImage().equals("")) {
+            		prod.setLImage(product.getLImage());
+            	}
+            	if (product.getPrice() != 0) {
+            		double price = product.getPrice() == -1 ? 0 : product.getPrice();
+            		prod.setPrice(price);
+            	}
+            	prodService.saveProduct(prod);
+            	model.addAttribute("message", "Product successfully updated!");
+        	} else if (prod != null && prod.getActive().equals("inactive")) {
+        		model.addAttribute("message","Product has been deleted. Please select 'Add Product' to re-add the product to your database.");
+        		return "addproduct";
+        	} else {
+        		model.addAttribute("message", "Product does not exist. Please select 'Add Product' to add the product to your datablase.");
+        		return "addproduct";
+        	}
         } else {
-            prodService.saveProduct(product);
-            model.addAttribute("message", "Product Successfully Created");
+        	if (prod != null && prod.getActive().equals("active")) {
+        		prod.setActive("inactive");
+        		prodService.saveProduct(prod);
+        		model.addAttribute("message", "Product successfully deleted!");
+        	} else if (prod != null && prod.getActive().equals("inactive")) {
+        		model.addAttribute("message", "You have already deleted this product. You'll have to add it again if you really want to delete it right now.");
+        		return "addproduct";
+        	} else {
+        		model.addAttribute("message", "This product does not exist. Please remember to add products before you try to delete them.");
+        		return "addproduct";
+        	}
         }
-        return "addproduct";
+    	return "productsuccess";
     }
     public UserValidator getUserValidator() {
         return userValidator;

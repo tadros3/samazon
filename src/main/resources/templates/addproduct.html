@@ -12,18 +12,24 @@
 <th:block th:replace="base :: nav"></th:block>
  <div class="container">
  <br /><br /><br />
+ <p th:text="${message}"></p>
 <form action = "#" th:action="@{/addproduct}"  th:object="${product}"  method="post">
+	<select class="form-control" required aria-required="true" id="ProductMethod" name="ProductMethod">
+		<option value="1">Add Product</option>
+		<option value="2">Update Product</option>
+		<option value="3">Delete Product</option>
+	</select>
 	<div class="form-group">
         <label for="pName">Product Name <mark><strong><span th:if="${#fields.hasErrors('pName')}" th:errors="*{pName}"></span></strong></mark></label>
-        <input type="text" class="form-control" id="pName" placeholder="Product Name" th:field="*{pName}" />
+        <input type="text" required aria-required="true" class="form-control" id="pName" placeholder="Product Name" th:field="*{pName}" />
     </div>
     <div class="form-group">
-        <label for="price">Price <mark><strong><span th:if="${#fields.hasErrors('price')}" th:errors="*{price}"></span></strong></mark></label>
+        <label for="price">Price (input '-1' if you want it to be 0)<mark><strong><span th:if="${#fields.hasErrors('price')}" th:errors="*{price}"></span></strong></mark></label>
         <input type="number" step=".01" class="form-control" id="price" placeholder="Price" th:field="*{price}" />
     </div>
     <div class="form-group">
-        <label for="inStock">Stock<mark><strong><span th:if="${#fields.hasErrors('inStock')}" th:errors="*{inStock}"></span></strong></mark></label>
-        <input type="number" class="form-control" id="inStock" placeholder="Stock" th:field="*{inStock}" />
+        <label for="inStock">Stock (input '-1' if you want it to be 0)<mark><strong><span th:if="${#fields.hasErrors('inStock')}" th:errors="*{inStock}"></span></strong></mark></label>
+        <input type="number" class="form-control" id="inStock" th:field="*{inStock}" />
     </div>
     <div class="form-group">
         <label for="sImage">Small Image Url <mark><strong><span th:if="${#fields.hasErrors('sImage')}" th:errors="*{sImage}"></span></strong></mark></label>
@@ -44,5 +50,6 @@
 	<button type="submit" class="btn btn-default">Submit</button>
  </form>
  </div>
+ <th:block th:replace="base :: footlinks"></th:block>
 </body>
 </html>

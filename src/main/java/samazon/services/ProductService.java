@@ -26,6 +26,10 @@ public class ProductService {
         prodRepository.save(prod);
     }
     
+    public void deleteProduct(Product prod) {
+    	prodRepository.delete(prod);
+    }
+    
     /*public ArrayList<Product> listAll() {
     	ArrayList<Product> products = new ArrayList<>();
         ProductRepository.findAll().forEach(products::add);
@@ -33,6 +37,6 @@ public class ProductService {
     }*/
     
     public ArrayList<Product> products() {
-        return prodRepository.findAll();
+        return prodRepository.findByActive("active");
     }
 }

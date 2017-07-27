@@ -27,7 +27,7 @@ public class Product{
 	 private String pName;
 	 
 
-	@Column(name = "inStock")
+	 @Column(name = "inStock")
 	 private long inStock;
 	 
 	 @Column(name = "s_image")
@@ -45,6 +45,9 @@ public class Product{
 	 @Column(name = "l_desc")
 	 private String lDesc;
 	 
+	 @Column(name = "active")
+	 private String active;
+	 
 	 @OneToMany(fetch = FetchType.EAGER,cascade = {CascadeType.PERSIST})
 	 //@OneToMany(cascade = {CascadeType.ALL},orphanRemoval=true)
 	// @OneToMany(fetch = FetchType.EAGER,mappedBy="product",cascade = {CascadeType.ALL})
@@ -52,6 +55,9 @@ public class Product{
 	 //@JoinColumn(name = "productid")
 	 private List<LineItem> litem = new ArrayList<LineItem>();
 	 
+	 public Product() {
+		 active = "true";
+	 }
 	 
 	 public long getId() {
 		return id;
@@ -125,6 +131,14 @@ public class Product{
 		this.litem = litem;
 	}
 	
+	public String getActive() {
+		return active;
+	}
+
+	public void setActive(String active) {
+		this.active = active;
+	}
+
 	public void addLineItem(LineItem lineitem) {
 		litem.add(lineitem);
 	}

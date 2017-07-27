@@ -5,30 +5,12 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
-    <title>Samazon Order Success</title>
+    <title>Success!</title>
     <th:block th:replace="base :: head"></th:block>
 </head>
 <body>
 <th:block th:replace="base :: nav"></th:block>
-<div class="container">
-    <br /><br /><br/>
-    
-    <div class="span6">
-			<h1>Your order is confirmed</h1>
-		</div>
-		
-	<div class="span6">
-			<h1>Please check your email.</h1>
-		</div>
-		
-		<div class="span6">
-		<form action="#" th:action="@{/}"  method="post">
-		<button class="btn btn-success btn-block" type="submit">Go to HomePage</button>
-		</form>
-		</div>
-		
-
-</div>
+<h3 th:text="${message}"></h3>
 <th:block th:replace="base :: footlinks"></th:block>
 </body>
 </html>
