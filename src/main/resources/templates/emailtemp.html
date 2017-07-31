@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="www.thymeleaf.org "
+	xmlns:sec="www.thymeleaf.org/extras/spring-security">
+<head>
+<meta charset="utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+<title>Samazon Email Template</title>
+<th:block th:replace="base :: head"></th:block>
+</head>
+<body>
+<div class="container">
+    <br /><br /><br/>
+    <div class="starter-template">
+    <p th:text="'Dear ' +${recipient} +','">
+	</p>
+	<p>Thanks for shopping with Samazon. Here is your order summary:</p>
+			<h1>Order Summary</h1>
+						<!-- p th:text="${title}"></p-->
+						<table class="table-responsive table-hover table-bordered" id="lineitems" style="width:100%">
+						<tr>
+						<th></th>
+						<th>Product Name</th>
+						<th>Product Image</th>
+						<th>Product Price</th>
+						<th>Product Quantity</th>
+						</tr>
+						
+						<th:block th:each="litem : ${eorder.lineItems}">
+						<tr >
+						<th></th>
+						<td class="text-center" th:text="${litem.product.pName}"></td>
+						<td class="text-center"><img th:src="@{${litem.product.sImage}}"/></td>
+						<td class="text-center" th:text="${litem.product.price}"></td>
+						<td class="text-center" th:text="${litem.quantity}"></td>
+						</tr>
+						</th:block>
+						</table>
+			<p>Regards</p>
+			<p>Samazon Admin</p>
+			
+			
+			</div>
+
+  </div>
+
+</body>
+</html>

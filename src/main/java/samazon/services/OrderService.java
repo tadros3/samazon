@@ -24,7 +24,7 @@ public class OrderService {
 		order.save(ord);
 	}
 	
-	public Order findByOpenOrderAndUser(String open, User user) {
+	public List<Order>  findByOpenOrderAndUser(String open, User user) {
 		return order.findByOpenOrderAndUser(open, user);
 	}
 	
@@ -32,5 +32,7 @@ public class OrderService {
 	{
 		return order.findByUser(user);
 	}
+	
+	
 
 }

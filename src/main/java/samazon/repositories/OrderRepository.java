@@ -11,7 +11,7 @@ import samazon.models.User;
 public interface OrderRepository  extends CrudRepository<Order, Long>{
 	
 	Order findByOpenOrder(String open);
-	Order findByOpenOrderAndUser(String open, User user);
+	List<Order> findByOpenOrderAndUser(String open, User user);
 	List<Order> findByUser(User user);
 
 }

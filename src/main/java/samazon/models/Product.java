@@ -60,7 +60,7 @@ public class Product{
 	 private List<Review> reviews = new ArrayList<Review>();
 	 
 	 public Product() {
-		 active = "true";
+		 active = "active";
 	 }
 	 
 	 public long getId() {

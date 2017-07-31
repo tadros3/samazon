@@ -4,7 +4,9 @@ import java.io.UnsupportedEncodingException;
 import java.security.Principal;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.mail.internet.InternetAddress;
 import javax.validation.Valid;
@@ -24,6 +26,7 @@ import com.google.common.collect.Lists;
 import it.ozimov.springboot.mail.model.Email;
 import it.ozimov.springboot.mail.model.defaultimpl.DefaultEmail;
 import it.ozimov.springboot.mail.service.EmailService;
+import it.ozimov.springboot.mail.service.exception.CannotSendEmailException;
 import samazon.models.LineItem;
 import samazon.models.Order;
 import samazon.models.Product;
@@ -77,7 +80,8 @@ public class HomeController {
     public String orderhistory(Principal principal,Model model){
     	User user = userService.findByUsername(principal.getName());
     	//System.out.println(user.getUsername());
-    	List<Order> ord = ordService.findByUser(user);
+    	//List<Order> ord = ordService.findByUser(user);
+    	List<Order> ord = ordService.findByOpenOrderAndUser("false",user);
     	model.addAttribute("orders", ord);
         return "orderhistory";
     }
@@ -99,7 +103,7 @@ public class HomeController {
     @RequestMapping(value="/shoppingcart", method = RequestMethod.GET)
     public String showshoppingcart(Principal principal, Model model){
     	User user = userService.findByUsername(principal.getName());
-    	Order order = ordService.findByOpenOrderAndUser("true", user);
+    	Order order = ordService.findByOpenOrderAndUser("true", user).get(0);
     	double total = 0.0;
     	if (order != null && order.getLineItems() != null) {
     		model.addAttribute("lineitems",order.getLineItems());
@@ -128,10 +132,11 @@ public class HomeController {
     	return totalPrice;
     }
     @RequestMapping("/ordersuccess")
-    public String ordersuccess(Principal principal,@RequestParam("input_address") String address,@RequestParam("input_email") String email) throws UnsupportedEncodingException{
+    public String ordersuccess(Principal principal,@RequestParam("input_address") String address,@RequestParam("input_email") String email,Model model) throws UnsupportedEncodingException, CannotSendEmailException{
     	User user = userService.findByUsername(principal.getName());
     	System.out.println(user.getUsername());
     	int order_num=0;
+    	Order order=new Order();
     	if(user.getOrders()!=null)
     	{
 	    	List<Order> ord = user.getOrders(); 
@@ -144,7 +149,7 @@ public class HomeController {
 	    			break;
 	    		}
 	    	}
-	    	Order order = ord.get(i);
+	    	 order = ord.get(i);
 	    	order.setOpenOrder("false");
 	    	order.setPaymentMethod("Credit Card");
 	    	order.setShippingAddress(address);
@@ -155,9 +160,12 @@ public class HomeController {
 	    		prodService.saveProduct(prod);
 	    	}
 	    	ordService.saveOrder(order);
+	    	//model.addAttribute("eorder",order);
     	}
     	System.out.println(address);
-    	sendEmailWithoutTemplating(user.getUsername(),email,order_num); 
+    	//sendEmailWithoutTemplating(user.getUsername(),email,order_num); 
+    	
+    	sendEmailWithTemplating(user.getUsername(),email,order); 
         return "ordersuccess";
     }
     
@@ -168,15 +176,24 @@ public class HomeController {
     	System.out.println(product.getId());
     	//List<Order> orders= user.getOrders();
     	//Order order = ordService.findByOpenOrder("true");
-    	Order order = ordService.findByOpenOrderAndUser("true", user);
-    	if(order==null)
+    	List <Order> orders = ordService.findByOpenOrderAndUser("true", user);
+    	Order order;
+    	if(orders.size()==0)
     	{
     		order = new Order();
     		order.setOpenOrder("true");
     		order.setUser(user);
+    		/*if(order==null)
+    			System.out.println("order null");
+    		if(user==null)
+    			System.out.println("user null");*/
     		user.addOrder(order);
     		ordService.saveOrder(order);
     		userService.saveUser(user);
+    	}
+    	else
+    	{
+    		order=orders.get(0);
     	}
     	model.addAttribute("openorder",order);
     	LineItem litem = lService.findByOrderAndProduct(order, product);
@@ -309,7 +326,7 @@ public class HomeController {
 
 		  final Email email = DefaultEmail.builder()
 
-		        .from(new InternetAddress("meensat3@gmail.com", "Samazon Admin"))
+		        .from(new InternetAddress("samazon.infosys@gmail.com", "Samazon Admin"))
 
 		        .to(Lists.newArrayList(new InternetAddress(useremail, username)))
 
@@ -322,5 +339,19 @@ public class HomeController {
 		  emailService.send(email);
 
 		}
+    
+    public void sendEmailWithTemplating(String username,String useremail,Order ord) throws UnsupportedEncodingException, CannotSendEmailException{
+ 	   final Email email = DefaultEmail.builder()
+ 	        .from(new InternetAddress("samazon.infosys@gmail.com", "Samazon Admin"))
+ 	        .to(Lists.newArrayList(new InternetAddress(useremail, username)))
+ 	        .subject("Samazon Order")
+ 	        .body("Hello "+username+", Thanks for ordering with Samazon.You have ordered "+" item")
+ 	        .encoding("UTF-8").build();
+ 	   final Map<String, Object> modelObject = new HashMap<>();
+ 	   modelObject.put("eorder", ord);
+ 	   modelObject.put("recipient",username);
+ 	 
+ 	   emailService.send(email, "emailtemp", modelObject);
+ 	}
 	
 }
