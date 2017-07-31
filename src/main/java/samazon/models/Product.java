@@ -55,6 +55,10 @@ public class Product{
 	 //@JoinColumn(name = "productid")
 	 private List<LineItem> litem = new ArrayList<LineItem>();
 	 
+	 @OneToMany(cascade = {CascadeType.PERSIST})
+	 @JoinTable(joinColumns = @JoinColumn(name = "product_id"),inverseJoinColumns = @JoinColumn(name = "review_id"))
+	 private List<Review> reviews = new ArrayList<Review>();
+	 
 	 public Product() {
 		 active = "true";
 	 }
@@ -137,6 +141,14 @@ public class Product{
 
 	public void setActive(String active) {
 		this.active = active;
+	}
+
+	public List<Review> getReviews() {
+		return reviews;
+	}
+
+	public void setReviews(List<Review> reviews) {
+		this.reviews = reviews;
 	}
 
 	public void addLineItem(LineItem lineitem) {

@@ -47,6 +47,10 @@ public class User {
    // @JoinColumn(name="user_id")
     private List<Order> orders =new ArrayList<Order>();
     
+    @OneToMany(cascade = {CascadeType.PERSIST})
+    @JoinTable(joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "review_id"))
+    private List<Review> reviews = new ArrayList<Review>();
+    
     public User() {
     	
     }
@@ -133,6 +137,14 @@ public class User {
 		this.orders = orders;
 	}
     
+	public List<Review> getReviews() {
+		return reviews;
+	}
+
+	public void setReviews(List<Review> reviews) {
+		this.reviews = reviews;
+	}
+
 	public void addOrder(Order order) {
 		orders.add(order);
 	}
