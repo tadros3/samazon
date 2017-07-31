@@ -60,7 +60,7 @@ public class Product{
 	 private List<Review> reviews = new ArrayList<Review>();
 	 
 	 public Product() {
-		 active = "true";
+		 active = "active";
 	 }
 	 
 	 public long getId() {
@@ -157,6 +157,10 @@ public class Product{
 	
 	public void removeLineItem(LineItem lineitem) {
 		litem.remove(lineitem);
+	}
+	
+	public void addReview(Review review) {
+		reviews.add(review);
 	}
 
 }

@@ -2,6 +2,7 @@ package samazon.controllers;
 
 import java.io.UnsupportedEncodingException;
 import java.security.Principal;
+import java.sql.Date;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -27,10 +28,12 @@ import it.ozimov.springboot.mail.service.EmailService;
 import samazon.models.LineItem;
 import samazon.models.Order;
 import samazon.models.Product;
+import samazon.models.Review;
 import samazon.models.User;
 import samazon.services.LineItemService;
 import samazon.services.OrderService;
 import samazon.services.ProductService;
+import samazon.services.ReviewService;
 import samazon.services.SSUserDetailsService;
 import samazon.services.UserService;
 import samazon.validators.ProductValidator;
@@ -52,6 +55,8 @@ public class HomeController {
 	private LineItemService lService;
 	@Autowired
 	public EmailService emailService;
+	@Autowired
+	private ReviewService reviewService;
 	//@Autowired
 	//private SSUserDetailsService sservice;
 	
@@ -161,6 +166,25 @@ public class HomeController {
         return "ordersuccess";
     }
     
+    @RequestMapping(value="/addreview", method = RequestMethod.POST)
+    public String addreview(Principal principal, Model model, @Valid @ModelAttribute("newReview") Review review, BindingResult result) {
+    	User user = userService.findByUsername(principal.getName());
+    	review.setDate(new Date(System.currentTimeMillis()));
+    	review.setUser(user);
+    	user.addReview(review);
+    	Product p = review.getProduct();
+    	p.addReview(review);
+    	reviewService.saveReview(review);
+    	userService.saveUser(user);
+    	prodService.saveProduct(p);
+    	System.out.println(p.getReviews());
+    	System.out.println(p.getPName());
+    	model.addAttribute("pprof", p);
+    	model.addAttribute("newReview", new Review());
+		model.addAttribute("reviews", p.getReviews());
+    	return "redirect:/productprofile/" + p.getPName();
+    }
+    
     @RequestMapping("/shoppingcart")
     public String shoppingcart(Principal principal,Model model,@Valid @ModelAttribute("pprof") Product product, @RequestParam("quantity") long quantity, BindingResult result){
     	System.out.println(principal.getName());
@@ -209,6 +233,11 @@ public class HomeController {
     @RequestMapping(value="/productprofile/{pName}", method = RequestMethod.POST)
     public String showproductprofile(@Valid @ModelAttribute("prod") Product product, BindingResult result,Model model){
     	model.addAttribute("pprof", product);
+    	model.addAttribute("newReview", new Review());
+    	List<Review> rev = reviewService.findByProduct(product);
+    	product.setReviews(rev);
+		model.addAttribute("reviews", product.getReviews());
+		System.out.println(product.getReviews());
         return "productprofile";
     }
     

@@ -38,6 +38,10 @@ public class Review {
 	@JoinColumn(name = "userid", nullable = false)
 	private User user;
 
+	public Review() {
+		active = "true";
+	}
+	
 	public long getId() {
 		return id;
 	}
