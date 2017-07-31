@@ -148,5 +148,9 @@ public class User {
 	public void addOrder(Order order) {
 		orders.add(order);
 	}
+	
+	public void addReview(Review review) {
+		reviews.add(review);
+	}
     
 }

@@ -158,5 +158,9 @@ public class Product{
 	public void removeLineItem(LineItem lineitem) {
 		litem.remove(lineitem);
 	}
+	
+	public void addReview(Review review) {
+		reviews.add(review);
+	}
 
 }

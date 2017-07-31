@@ -38,23 +38,46 @@
 								</div>
 								<div class="span6">
 									<form action="#" th:action="@{/shoppingcart}" th:object="${pprof}" method="post">
-									<input type="hidden" name="id" th:value="${pprof.id}"/>
-									<input type="hidden" name="pName" th:value="${pprof.pName}"/>
-									<input type="hidden" name="inStock" th:value="${pprof.inStock}"/>
-									<input type="hidden" name="price" th:value="${pprof.price}"/>
-									<input type="hidden" name="lDesc" th:value="${pprof.lDesc}"/>
-									<input type="hidden" name="lImage" th:value="${pprof.lImage}"/>
-									<input type="hidden" name="sDesc" th:value="${pprof.sDesc}"/>
-									<input type="hidden" name="sImage" th:value="${pprof.sImage}"/>
-									<input type="number" id="quantity" class="form-control" name="quantity" min="1" th:max="${pprof.inStock}" value="1"/>
-									<button class="btn btn-success btn-block" type="submit">Add to cart</button>
-								</form>
+										<input type="hidden" name="id" th:value="${pprof.id}"/>
+										<input type="hidden" name="pName" th:value="${pprof.pName}"/>
+										<input type="hidden" name="inStock" th:value="${pprof.inStock}"/>
+										<input type="hidden" name="price" th:value="${pprof.price}"/>
+										<input type="hidden" name="lDesc" th:value="${pprof.lDesc}"/>
+										<input type="hidden" name="lImage" th:value="${pprof.lImage}"/>
+										<input type="hidden" name="sDesc" th:value="${pprof.sDesc}"/>
+										<input type="hidden" name="sImage" th:value="${pprof.sImage}"/>
+										<input type="number" id="quantity" class="form-control" name="quantity" min="1" th:maxlength="${pprof.inStock}" value="1"/>
+										<button class="btn btn-success btn-block" type="submit">Add to cart</button>
+									</form>
+									<div class="alert-success" id="addreview">Add Review
+										<form action="#" th:action="@{/addreview}" th:object="${newReview}" method="post">
+											<input type="text" class="form-control" id="title" placeholder="Title" th:field="*{title}" />
+											<input type="text" class="form-control" id="body" th:field="*{body}" />
+											<input type="hidden" name="product" th:value="${pprof.id}" />
+											<button class="btn btn-default" type="submit">Submit</button>
+										</form>
+									</div>
 								</div>
 							</div>
 						</div> 
 						<!--END CAPTION -->
 					</div>
 					<!-- END: THUMBNAIL -->
+					<div th:if="${not #lists.isEmpty(reviews)}">
+						<h2>Reviews</h2>
+						<th:block th:each="review : ${reviews}">
+							<div class="prodreview">
+								<div class="reviewbody">
+									<h4 th:text="${review.title}"></h4>
+									<p th:text="${review.body}"></p>
+								</div>
+								<div class="reviewinfo">
+									<p th:text="${review.user.username}"></p>
+									<p th:text="${review.date}"></p>
+								</div>
+							</div>
+						</th:block>
+					</div>
 				</div>
 				<!-- PROD. ITEM -->
 				
@@ -75,5 +98,37 @@
 <!-- PAGINATION-->
  </div>
  <th:block th:replace="base :: footlinks"></th:block>
+ <script>
+ 	$(document).ready(function() {
+ 		$("div#addreview").click(function() {
+ 			$("div#addreview").toggleClass("active");
+ 		});
+ 		
+ 		$("div#addreview *").click(function(e) {
+ 	        e.stopPropagation();
+ 	   });
+
+ 	})
+ </script>
+ <style>
+ 	div#addreview * {
+ 		display: none;
+ 	}
+ 	div#addreview.active * {
+ 		display: block;
+ 	}
+ 	div.prodreview {
+ 		border: 3px dotted darkseagreen;
+ 		margin-bottom: 5px;
+ 		overflow: hidden;
+ 	}
+ 	div.reviewbody {
+ 		float: left;
+ 		width: 60%;
+ 	}
+ 	div.reviewinfo {
+ 		float: right;
+ 	}
+ </style>
 </body>
 </html>
